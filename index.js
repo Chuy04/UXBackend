@@ -6,14 +6,12 @@ const path=require('path')
 const bodyParser = require('body-parser');
 const app = express()
 
-import { PORT, DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from './config.js'
-
 const dbOptions = {
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    port: DB_PORT
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '1234',
+    database: process.env.DB_NAME || 'shonan',
+    port: process.env.DB_PORT || 3306
 };
 
 require('dotenv').config();
@@ -36,6 +34,8 @@ connection.connect((err) => {
 app.use(require('./routes/routes'))
 app.use(require('./routes/routes2'))
 app.use(require('./routes/routes3'))
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT,()=>{
     console.log("Server on port", PORT)
